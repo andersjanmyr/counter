@@ -1,10 +1,14 @@
 package main
 
 import (
+	"log"
 	"net/http"
+	"os"
 	"strconv"
+
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
-import "os"
 
 type Counter interface {
 	Inc() error
@@ -12,9 +16,16 @@ type Counter interface {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Printf("Server listening on port: %s", port)
+	r := mux.NewRouter()
 	counter := setup()
-	http.HandleFunc("/counter", counterHandler(counter))
-	http.ListenAndServe(":8080", nil)
+	r.HandleFunc("/counter", counterHandler(counter))
+	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
+	http.ListenAndServe(":"+port, loggedRouter)
 }
 
 func setup() Counter {
