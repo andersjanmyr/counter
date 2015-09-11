@@ -1,0 +1,30 @@
+
+body {
+  background-size: contain;
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+body.memory {
+  background-image: url(./images/memory.png);
+}
+body.mongo {
+  background-image: url(./images/mongo.png);
+}
+body.postgres {
+  background-image: url(./images/postgres.png);
+}
+body.redis {
+  background-image: url(./images/redis.png);
+}
+
+.container {
+  margin-top: 200px;
+  margin-left: 150px;
+}
+
+.counter {
+  font-size: 288pt;
+  border-radius: 25px;
+}
+

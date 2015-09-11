@@ -22,6 +22,10 @@ func NewRedisCounter(url string) *RedisCounter {
 	return &RedisCounter{client, url}
 }
 
+func (self *RedisCounter) Name() string {
+	return "redis"
+}
+
 func (self *RedisCounter) Inc() error {
 	log.Printf("Incrementing Redis counter")
 	if err := self.client.Incr("counter").Err(); err != nil {
