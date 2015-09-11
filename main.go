@@ -89,26 +89,6 @@ func counterHandler(counter Counter) func(w http.ResponseWriter, r *http.Request
 
 }
 
-type MongoCounter struct {
-	url string
-}
-
-func (self *MongoCounter) Name() string {
-	return "mongo"
-}
-
-func NewMongoCounter(url string) *MongoCounter {
-	return &MongoCounter{url}
-}
-
-func (self *MongoCounter) Inc() error {
-	return nil
-}
-
-func (self *MongoCounter) Count() (int, error) {
-	return 0, nil
-}
-
 type PostgresCounter struct {
 	url string
 }
