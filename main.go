@@ -13,7 +13,7 @@ type Counter interface {
 
 func main() {
 	counter := setup()
-	http.HandleFunc("/", counterHandler(counter))
+	http.HandleFunc("/counter", counterHandler(counter))
 	http.ListenAndServe(":8080", nil)
 }
 
