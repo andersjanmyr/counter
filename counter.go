@@ -29,22 +29,6 @@ func setup() Counter {
 	}
 }
 
-type RedisCounter struct {
-	url string
-}
-
-func NewRedisCounter(url string) *RedisCounter {
-	return &RedisCounter{url}
-}
-
-func (self *RedisCounter) Inc() error {
-	return nil
-}
-
-func (self *RedisCounter) Count() (int, error) {
-	return 0, nil
-}
-
 type MongoCounter struct {
 	url string
 }
