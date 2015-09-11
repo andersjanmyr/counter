@@ -28,8 +28,8 @@ func main() {
 	router := mux.NewRouter().StrictSlash(false)
 	router.HandleFunc("/", renderHandler(counter))
 	router.HandleFunc("/index.html", renderHandler(counter))
-	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
 	router.HandleFunc("/counter", counterHandler(counter))
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
 	loggedRouter := handlers.LoggingHandler(os.Stdout, router)
 	http.ListenAndServe(":"+port, loggedRouter)
 }
