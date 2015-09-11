@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strings"
 
 	"gopkg.in/redis.v3"
 )
@@ -31,8 +32,14 @@ func (self *RedisCounter) Inc() error {
 
 func (self *RedisCounter) Count() (int, error) {
 	log.Printf("Getting Redis counter")
-	n, err := self.client.Get("counter").Int64()
-	if err != nil {
+	cmd := self.client.Get("counter")
+
+	// if counter is nil
+	if cmd.Err() != nil && strings.Contains(cmd.Err().Error(), "nil") {
+		return 0, nil
+	}
+	n, err := cmd.Int64()
+	if cmd.Err() != nil {
 		return 0, err
 	}
 	return int(n), nil
