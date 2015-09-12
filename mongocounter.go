@@ -16,23 +16,23 @@ func (self *MongoCounter) Name() string {
 	return "mongo"
 }
 
-func NewMongoCounter(url string) *MongoCounter {
+func NewMongoCounter(url string) (*MongoCounter, error) {
 	session, err := mgo.Dial(url)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	c := session.DB("counter-db").C("counter")
 	err = c.Insert(bson.M{"n": 0})
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	return &MongoCounter{session, url}
+	return &MongoCounter{session, url}, nil
 }
 
 func (self *MongoCounter) Inc() error {
 	c := self.session.DB("counter-db").C("counter")
-	err := c.Update(bson.M{"n": 1}, bson.M{"$inc": bson.M{"n": 1}})
+	err := c.Update(bson.M{}, bson.M{"$inc": bson.M{"n": 1}})
 	if err != nil {
 		log.Printf("%#v\n", err)
 		return err
@@ -43,11 +43,11 @@ func (self *MongoCounter) Inc() error {
 func (self *MongoCounter) Count() (int, error) {
 	c := self.session.DB("counter-db").C("counter")
 	var result interface{}
-	err := c.Find(bson.M{"n": 1}).One(&result)
+	err := c.Find(bson.M{}).One(&result)
 	if err != nil {
 		log.Printf("%#v\n", err)
 		return 0, err
 	}
-	n := result.(int)
-	return n, nil
+	doc := result.(bson.M)
+	return doc["n"].(int), nil
 }
