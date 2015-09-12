@@ -24,7 +24,11 @@ func main() {
 		port = "8080"
 	}
 	log.Printf("Server listening on port: %s", port)
-	counter := setup()
+	counter, err := setup()
+	if err != nil {
+		log.Printf("Error initializing counter: %#v", err)
+		os.Exit(1)
+	}
 	router := mux.NewRouter().StrictSlash(false)
 	router.HandleFunc("/", renderHandler(counter))
 	router.HandleFunc("/index.html", renderHandler(counter))
@@ -34,7 +38,7 @@ func main() {
 	http.ListenAndServe(":"+port, loggedRouter)
 }
 
-func setup() Counter {
+func setup() (Counter, error) {
 	if os.Getenv("REDIS_URL") != "" {
 		return NewRedisCounter(os.Getenv("REDIS_URL"))
 	} else if os.Getenv("MONGO_URL") != "" {
@@ -93,12 +97,12 @@ type PostgresCounter struct {
 	url string
 }
 
-func (self *PostgresCounter) Name() string {
-	return "postgres"
+func NewPostgresCounter(url string) (*PostgresCounter, error) {
+	return &PostgresCounter{url}, nil
 }
 
-func NewPostgresCounter(url string) *PostgresCounter {
-	return &PostgresCounter{url}
+func (self *PostgresCounter) Name() string {
+	return "postgres"
 }
 
 func (self *PostgresCounter) Inc() error {
@@ -113,12 +117,12 @@ type MemoryCounter struct {
 	counter int
 }
 
-func (self *MemoryCounter) Name() string {
-	return "memory"
+func NewMemoryCounter() (*MemoryCounter, error) {
+	return &MemoryCounter{}, nil
 }
 
-func NewMemoryCounter() *MemoryCounter {
-	return &MemoryCounter{}
+func (self *MemoryCounter) Name() string {
+	return "memory"
 }
 
 func (self *MemoryCounter) Inc() error {

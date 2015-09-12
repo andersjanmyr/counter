@@ -12,14 +12,14 @@ type RedisCounter struct {
 	url    string
 }
 
-func NewRedisCounter(url string) *RedisCounter {
+func NewRedisCounter(url string) (*RedisCounter, error) {
 	log.Printf("Connecting to Redis " + url)
 	client := redis.NewClient(&redis.Options{
 		Addr:     url,
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
-	return &RedisCounter{client, url}
+	return &RedisCounter{client, url}, nil
 }
 
 func (self *RedisCounter) Name() string {
