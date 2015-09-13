@@ -93,26 +93,6 @@ func counterHandler(counter Counter) func(w http.ResponseWriter, r *http.Request
 
 }
 
-type PostgresCounter struct {
-	url string
-}
-
-func NewPostgresCounter(url string) (*PostgresCounter, error) {
-	return &PostgresCounter{url}, nil
-}
-
-func (self *PostgresCounter) Name() string {
-	return "postgres"
-}
-
-func (self *PostgresCounter) Inc() error {
-	return nil
-}
-
-func (self *PostgresCounter) Count() (int, error) {
-	return 0, nil
-}
-
 type MemoryCounter struct {
 	counter int
 }

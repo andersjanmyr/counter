@@ -19,6 +19,7 @@ packages = \
 					 github.com/gorilla/context \
 					 github.com/gorilla/handlers \
 					 github.com/gorilla/mux \
+					 github.com/lib/pq \
 					 gopkg.in/bsm/ratelimit.v1 \
 					 gopkg.in/bufio.v1 \
 					 gopkg.in/mgo.v2 \
