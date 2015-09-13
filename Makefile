@@ -36,5 +36,8 @@ docker-build: dist/counter-linux
 docker-run:
 	docker run -p 3000:80 -it --rm --name counter andersjanmyr/counter
 
+docker-push:
+	docker push andersjanmyr/counter
+
 clean :
 	-rm -r dist
