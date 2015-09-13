@@ -18,12 +18,15 @@ body.redis {
   background-image: url(./images/redis.png);
 }
 
-.container {
-  margin-left: 150px;
+.logo {
+  float: left;
+  width: 200px;
+  height: 200px;
 }
 
 h1 {
   margin-top: 100px;
+  padding-top: 50px;
   font-size: 72px;
 }
 
