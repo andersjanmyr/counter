@@ -17,6 +17,7 @@ func (self *MongoCounter) Name() string {
 }
 
 func NewMongoCounter(url string) (*MongoCounter, error) {
+	log.Printf("Connecting to Mongo " + url)
 	session, err := mgo.Dial(url)
 	if err != nil {
 		return nil, err
