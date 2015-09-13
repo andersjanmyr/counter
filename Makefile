@@ -1,4 +1,4 @@
-sources = *.go
+sources = main.go mongocounter.go postgrescounter.go rediscounter.go
 
 dist/counter.exe: $(sources)
 	CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -a -installsuffix cgo -ldflags '-s' -o dist/counter.exe
@@ -11,6 +11,11 @@ dist/counter-linux: $(sources)
 
 .PHONY: build release clean
 build: dist/counter.exe dist/counter-osx dist/counter-linux
+
+.PHONY: run
+run:
+	go run $(sources)
+
 
 release: build
 	release.sh counter $(VERSION) dist/*
