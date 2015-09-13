@@ -30,5 +30,11 @@ packages = \
 install:
 	go get $(packages)
 
+docker-build: dist/counter-linux
+	docker build -t andersjanmyr/counter .
+
+docker-run:
+	docker run -p 3000:80 -it --rm --name counter andersjanmyr/counter
+
 clean :
 	-rm -r dist
