@@ -28,8 +28,13 @@ func NewPostgresCounter(url string) (*PostgresCounter, error) {
 			return nil, err
 		}
 	} else {
-		pgErr := err.(*pq.Error)
-		if pgErr.Code != "42P07" {
+		log.Printf("%#v", err)
+		if pgErr, ok := err.(*pq.Error); ok {
+			if pgErr.Code != "42P07" {
+				log.Printf("%#v", err)
+				return nil, err
+			}
+		} else {
 			log.Printf("%#v", err)
 			return nil, err
 		}
