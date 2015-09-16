@@ -3,6 +3,7 @@
 Counter is a web application that increases the value of a counter every time
 it is clicked. The application supports four different stores.
 
+
 ## Memory
 
 This is the default store. It stores the counter in memory and is reset on
@@ -62,6 +63,6 @@ $ POSTGRES_URL=postgres://localhost counter-linux
 docker run -d -e POSTGRES_URL=postgres://localhost andersjanmyr/counter
 
 # Or with link, assuming a Postgres container named postgres is running
-docker run -d --link postgres -e POSTGRES_URL=postgres://postgres andersjanmyr/counter
+docker run -d --link postgres -e POSTGRES_URL=postgres://postgres@postgres andersjanmyr/counter
 ```
 
