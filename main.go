@@ -9,7 +9,7 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"gopkg.in/unrolled/render.v1"
+	render "gopkg.in/unrolled/render.v1"
 )
 
 type Counter interface {
@@ -18,7 +18,17 @@ type Counter interface {
 	Count() (int, error)
 }
 
+var hostname string
+var env string
+
 func main() {
+	var err error
+	hostname, err = os.Hostname()
+	if err != nil {
+		log.Printf("Error getting hostname: %#v", err)
+		os.Exit(1)
+	}
+	env = strings.Join(os.Environ(), "\n")
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
@@ -60,9 +70,11 @@ func renderHandler(counter Counter) func(w http.ResponseWriter, r *http.Request)
 		}
 		render.HTML(w, http.StatusOK, "counter",
 			map[string]string{
-				"count": strconv.Itoa(n),
-				"type":  counter.Name(),
-				"Type":  strings.Title(counter.Name()),
+				"count":    strconv.Itoa(n),
+				"type":     counter.Name(),
+				"Type":     strings.Title(counter.Name()),
+				"Hostname": hostname,
+				"Env":      env,
 			})
 	}
 }

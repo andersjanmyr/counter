@@ -1,4 +1,5 @@
 <body class='{{.type}}'>
+  <h4>Hostname:  {{.Hostname}}</h4>
   <div class="container">
     <img class='logo' src='images/counter.png'>
     <h1>{{.Type}} Counter</h1>
@@ -6,5 +7,6 @@
       {{.count}}
     </div>
   </div>
+  <textarea class='env'>{{.Env}}</textarea>
 </body>
 
