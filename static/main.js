@@ -1,6 +1,6 @@
 $(function() {
   $('.counter,.logo').click(function() {
-    $.post('/counter', function(data) {
+    $.post(mountPoint + '/counter', function(data) {
       $('.counter').text(data);
     });
   });

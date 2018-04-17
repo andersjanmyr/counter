@@ -4,9 +4,10 @@
     <title>{{.Type}} Counter</title>
     <meta name="description" content="Counter demo">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="main.css" />
-    <script src="jquery-2.1.4.min.js"></script>
-    <script src="main.js"></script>
+    <link rel="stylesheet" href="{{.MountPoint}}/main.css" />
+    <script>var mountPoint = {{.MountPoint}};</script>
+    <script src="{{.MountPoint}}/jquery-2.1.4.min.js"></script>
+    <script src="{{.MountPoint}}/main.js"></script>
   </head>
   {{ yield }}
 </html>

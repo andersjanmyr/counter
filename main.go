@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -63,18 +64,27 @@ func setup() (Counter, error) {
 func renderHandler(counter Counter) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		render := render.New(render.Options{Layout: "layout"})
+		fmt.Printf("%#v", r)
 		n, err := counter.Count()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		mountPoint := r.Header.Get("X-Mount-Point")
+		if mountPoint == "" {
+			mountPoint = os.Getenv("COUNTER_MOUNT_POINT")
+		}
+		mountPoint = strings.TrimSuffix(mountPoint, "/")
+
+		fmt.Println(mountPoint)
 		render.HTML(w, http.StatusOK, "counter",
 			map[string]string{
-				"count":    strconv.Itoa(n),
-				"type":     counter.Name(),
-				"Type":     strings.Title(counter.Name()),
-				"Hostname": hostname,
-				"Env":      env,
+				"count":      strconv.Itoa(n),
+				"type":       counter.Name(),
+				"Type":       strings.Title(counter.Name()),
+				"Hostname":   hostname,
+				"Env":        env,
+				"MountPoint": mountPoint,
 			})
 	}
 }
